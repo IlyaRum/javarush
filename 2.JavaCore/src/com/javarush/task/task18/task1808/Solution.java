@@ -19,49 +19,23 @@ public class Solution {
         FileOutputStream outputStream2 = new FileOutputStream( fileName2 );
         FileOutputStream outputStream3 = new FileOutputStream( fileName3 );
 
-//        FileInputStream inputStream1 = new FileInputStream( "test2.txt" );
-//        FileOutputStream outputStream2 = new FileOutputStream( "test31.txt" );
-//        FileOutputStream outputStream3 = new FileOutputStream( "test32.txt" );
-
-
         if (inputStream1.available() > 0) {
+            byte[] out2 = new byte[inputStream1.available() / 2];
+            byte[] out1;
+            if (inputStream1.available() % 2 == 0) {
+                out1 = new byte[inputStream1.available() / 2];
 
-            byte[] buffer = new byte[inputStream1.available()];
+            } else {
+                out1 = new byte[inputStream1.available() / 2 + 1];
+            }
 
-            int count = inputStream1.read( buffer );
-//            System.out.println( "count=" + count );
+            int count1 = inputStream1.read( out1 );
+            int count2 = inputStream1.read( out2 );
 
-            int temp = (buffer.length / 2) + 1;
-            if (count % 2 == 0) {
-                temp = (buffer.length / 2);
-//                System.out.println( "чет " + temp );
-
-            }
-//            else {
-//                System.out.println( "нечет " + temp );
-//            }
-            byte[] out1 = new byte[temp];
-            byte[] out2 = new byte[buffer.length - temp];
-//            System.out.println( "---------------" );
-//            System.out.print( "buff: " );
-            for (int i = 0; i < buffer.length; i++) {
-//                System.out.print( buffer[i] + " " );
-            }
-//            System.out.println();
-//            System.out.print( "out1_size " + out1.length + " out1: " );
-            for (int i = 0; i < out1.length; i++) {
-                out1[i] = buffer[i];
-                System.out.print( out1[i] + " " );
-            }
-//            System.out.println();
-//            System.out.print( "out2_size " + out2.length + " out2: " );
-            for (int i = 0; i < out2.length; i++) {
-                out2[i] = buffer[i + out1.length];
-                System.out.print( out2[i] + " " );
-            }
-            outputStream2.write( out1 );
-            outputStream3.write( out2 );
+            outputStream2.write( out1, 0, count1 );
+            outputStream3.write( out2, 0, count2 );
         }
+
         inputStream1.close();
         outputStream2.close();
         outputStream3.close();
